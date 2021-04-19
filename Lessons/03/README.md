@@ -163,12 +163,97 @@ Run your program and see what happens. You should see the asteroid move into the
 In the next section, we'll change this. We'll make the alien react if the asteroid collides with it. With the keyboard controls we implemented in the previous section, the player can actually move the alien out of the way of the asteroid and avoid the collision. This will be the objective of our simple game.
 
 
+## Detecting Collisions and Changing Appearances
 
+We want our game to do something if the asteroid touches the alien. In game development, when two moving objects touch each other, we call that event a **collision**. Most game development frameworks, including Pygame Zero, offer some means of **collision detection**, a way to have some code run when a collision occurs.
+
+In Pygame Zero, every Actor object has a function `colliderect()` that we can call to determine if the actor has collided with any other Actor. We can call `colliderect()` inside `update()`, after we have changed the position of the asteroid, to tell whether, in its new position, the asteroid has collided with the alien.
+
+The `colliderect()` function returns a special value, `True`, if the two Actors have collided, or `False` otherwise. `True` and `False` are two built-in values in Python (called **Boolean** values) and when a function returns one of these values, we can use it in an if-statement. Let's look at an example. Change your `update()` function to call `colliderect()` on the alien object as follows (new code shown in bold):
+
+<pre>
+def update():
+    asteroid.left -= 2
+    <b>if alien.colliderect(asteroid):
+        alien.image = "alien_hurt"</b>
+</pre>
+
+The new code, shown in bold, calls `alien.colliderect(asteroid)` inside an if-statement. Let's break this down:
+* We're calling `colliderect()` on the object stored in the variable `alien`, which is of course our alien Actor. This will check whether another Actor has collided with the alien.
+* The argument to `alien.colliderect()` is the other object we're interested in. Here, we're passing `asteroid`. So this call checks for a collision between the alien and the Actor stored in the variable `asteroid`, which is of course our asteroid.
+* `alien.colliderect(asteroid)` is called in an if-statement. If the function returns `True` then the code block beneath the if-statement is run. If it returns `False` then we skip that code.
+* Inside the if-statement, we set `alien.image` to `"alien_hurt"`. This changes the appearance of the alien. Setting the `.image` variable on an Actor object causes Pygame Zero to draw the actor with a new image. The string you set it to must correspond to an image file located in the Mu editor's images directory. It so happens that Mu comes built-in with an "alien_hurt.png" file that is the same alien character but in a hurt-looking pose. You could of course use another image, including one that you create yourself (to do this, you'd use the same set of steps you used to create the asteroid image).
+
+If you run your game now, you should see the alien's appearance change to the hurt image if it collides with the asteroid.
+
+## Playing Sounds
+
+By changing the alien's appearance when it collides with the asteroid, we're giving the player a visual indication that the alien has been struck. It can also be very effective to use sound to communicate the important events in a game. Let's change our code to play a sound when the alien is hit by the asteroid.
+
+Mu comes with some built-in sound files you can use. You can see these sound files by clicking on the Sounds button in the Mu toolbar to open the sounds directory:
+
+<p align="center">
+  <img alt="Screenshot of the sounds button in the Mu toolbar" src="assets/mu-sounds.png" />
+</p>
+
+You'll notice there's a file named `eep.wav` in the sounds directory. We'll play this sound to indicate the alien is hurt.
+
+Playing a sound in Pygame Zero is really easy! To play the `eep.wav` sound, you just need to add one line of code, shown in bold below:
+
+<pre>
+def update():
+    asteroid.left -= 2
+    if alien.colliderect(asteroid):
+        alien.image = "alien_hurt"
+        <b>sounds.eep.play()</b>
+</pre>
+
+`sounds` is a built-in Pygame Zero object. It has a variable for each sound file that appears in the sound directory, named the same as the sound file name, without the `.wav` extension. So `eep.wav` is represented by `sounds.eep`. What's in the `sounds.eep` variable? Another object, with a `play()` function that you can call to play the sound.
+
+By putting the call to `sounds.eep.play()` inside our if-statement that checks for the collision, the sound only plays when a collision occurs. Run your game now and wait for the asteroid to collide with the alien. The alien's appearance should change to the hurt image and the sound should play. Our game is starting to come alive!
+
+Note: As you're continuing to develop and test the game, you might find it annoying to hear the sound over and over again. To get rid of the sound, you could temporarily delete the `sounds.eep.play()` line. But there's an even better way. You can put a `#` at the start of the line. In Python, any line that starts with `#` is considered a comment. The Python interpreter ignores these lines. Software developers often use comment lines to leave notes to themselves or others reading the code, explaining what the code does. But we can also put the `#` in front of a line of real code, to make the Python interpreter ignore it. This is called "commenting out the code". If you do this, you'll notice that Mu makes the line appear grayed out:
+
+<p align="center">
+  <img alt="Screenshot of the a commented out line of code" src="assets/commented-out.png" />
+</p>
+
+## Making Something Happen Later
+You may notice a problem with our game as currently written: when the asteroid collides with the alien, the alien's appearance changes to the hurt image, but it never changes back to the regular, unhurt alien.
+
+Changing the alien's image back to what's in `alien.png`, is easy. We can just set `alien.image = "alien"`. But where should we put this code?
+
+After a collision with the asteroid, we want the alien to appear hurt for some period of time, say one second, and then change back to its regular appearance. After setting the alien's image to `"alien_hurt"` we want to tell Pygame Zero, "after one second, set the alien's image back to `"alien"`".
+
+Pygame Zero offers a built-in `clock` object to do just this kind of thing. `clock` has a function, `schedule_unique()`, that lets you schedule a call to another function at a later time. You pass two arguments to `schedule_unique`: a function to call, and a number of seconds to wait before calling it.
+
+To use `clock.schedule_unique()` to restore our alien's appearance, we first need to create a function that sets the alien's appearance back to normal. Add this function definition to your code:
+
+```
+def set_alien_normal():
+    alien.image = "alien"
+```
+
+We've defined a new function, `set_alien_normal()`, that sets the `alien.image` back to the regular alien image. We'll now use `clock.schedule_unique()` to schedule a call to this function after one second. Add the bold line of code shown below to your `update()` function.
+
+<pre>
+def update():
+    asteroid.left -= 2
+    if alien.colliderect(asteroid):
+        alien.image = "alien_hurt"
+        sounds.eep.play()
+        <b>clock.schedule_unique(set_alien_normal, 1.0)</b>
+</pre>
+
+This line of code tells Pygame Zero to call `set_alien_normal()` after `1.0` seconds. Notice that when we pass `set_alien_normal` to `clock.schedule_unique`, we do not put parentheses after it. That's because we are not *calling* `set_alien_normal()` here. Rather we are passing the function itself to `clock.schedule_unique()` to be called later.
+
+Run the game now and let the asteroid collide with the alien. You should see the alien's appearance change, the sound play, and the appearance change back after one second.
 
 ## Exercises
 
-1. Can you change the code in `on_key_down()` to make it so that the player can't move the alien off the top or bottom or the screen?
+1. Can you change the code in `on_key_down()` to make it so that the player can't move the alien off the top or bottom or the window?
 
+2. Can you add code to let the player move the alien left and right, either with the left/right arrow keys or any other keys you choose? Can you prevent the player from moving the alien off the left/right edges of the window?
 
 
 
