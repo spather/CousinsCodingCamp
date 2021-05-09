@@ -220,12 +220,12 @@ That last line, `asteroid.draw()` is the one we have to change. We no longer hav
 def draw():
     screen.fill((0, 102, 255))
     alien.draw()
-    <del>asteroid.draw()<del>
+    <del>asteroid.draw()</del>
     <b>for asteroid in asteroids:
-        asteroid.draw()<b>
+        asteroid.draw()</b>
 </pre>
 
-Now we're using a for loop to go through the list, `asteriods`. Each time through the loop, the iteration variable, `asteroid` is assigned to be one of the asteroids in the list. In the body of the loop, we call `asteroid.draw()`, to draw the asteroid currently in the iteration variable. This results is each asteroid object having its `draw()` function called.
+Now we're using a for loop to go through the list, `asteroids`. Each time through the loop, the iteration variable, `asteroid` is assigned to be one of the asteroids in the list. In the body of the loop, we call `asteroid.draw()`, to draw the asteroid currently in the iteration variable. This results is each asteroid object having its `draw()` function called.
 
 Next, we'll tackle `update()`. Though there's a little more code in `update()`, we're doing conceptually the same thing: replacing operations on the single `asteroid` object with a loop that does those operations on each asteroid in the list. `draw()` currently looks like this:
 
