@@ -166,7 +166,6 @@ We're using `+=` to say "take what's in `alien.top` and add what's in `alien_y_s
 We had this problem when we first introduced keyboard movement in Lesson 3, and fixed it in an exercise. The code that fixes it is currently in our `on_key_down` handler:
 
 <pre>
-<code class="language-python">
 def on_key_down(key):
     if key == keys.DOWN:
         alien.top += 10
@@ -176,7 +175,6 @@ def on_key_down(key):
         alien.top = 0;
     if alien.bottom > HEIGHT:
         alien.bottom = HEIGHT</b>
-</code>
 </pre>
 
 It checks whether `alien.top` has become less than `0` (and adjusts it to `0`, if so) or greater than `HEIGHT` (and adjusts it to `HEIGHT` if so). Since we are now performing adjustments to `alien.top` in `update()`, we need to move this code (shown in bold above) there. Remove it from `on_key_down()` and add it to `update()` just after the line we just added to change `alien.top`:
