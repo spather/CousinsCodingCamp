@@ -84,7 +84,7 @@ In the game code we'll write in the next section, you'll see that lists can also
 
 In this section, we're going to make a few changes to the structure of the game code to make it easier to introduce multiple asteroids. These changes won't actually change the behavior or appearance of the game: they are purely to re-organize the code to make it easier to implement the changes we want. This process is called **refactoring** and happens quite often in real software projects.
 
-Before we begin, it's important to make sure we're starting from the right place. Your came code should look like this:
+Before we begin, it's important to make sure we're starting from the right place. Your game code should look like this:
 
 ```
 WIDTH = 500
