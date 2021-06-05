@@ -25,10 +25,11 @@ asteroids = [
 def draw():
     screen.fill((0, 102, 255))
     alien.draw()
-    global lives
+
     if lives <= 0:
         screen.draw.text("Game Over", center=(250, 150), fontsize=60)
         return
+
     for asteroid in asteroids:
         asteroid.draw()
 
@@ -48,12 +49,12 @@ def update():
             asteroid.left = WIDTH
             asteroid.top = randint(0, HEIGHT-100)
         if alien.colliderect(asteroid) and alien_can_hurt:
-            alien_can_hurt = False
             alien.image = "alien_hurt"
-            # sounds.eep.play()
             lives -= 1
-            print("I just decreased a life")
-            clock.schedule_unique(set_alien_normal, 1.0)
+            print("Decreased lives to: " + str(lives))
+            alien_can_hurt = False
+            # sounds.eep.play()
+            clock.schedule_unique(set_alien_normal, 2.0)
 
 def set_alien_normal():
     global alien_can_hurt
@@ -73,4 +74,3 @@ def on_key_up(key):
         alien_y_speed = 0
     elif key == keys.UP:
         alien_y_speed = 0
-
