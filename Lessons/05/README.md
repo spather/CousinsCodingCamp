@@ -525,4 +525,39 @@ Let's change our so that we do that after two seconds and see if it helps. Chang
 
 That seems to do the trick! Now we have our three lives working as we'd expect.
 
+## One Last Bug!
+If you leave the game on the game over screen for a while, you may notice something strange: the alien occasionally changes to the hurt state and then back again. This looks a little odd - we should fix it before we wrap up this lesson. Can you figure out why this is happening?
 
+<p align="center">
+  <img alt="Animation showing the alien changing to the hurt state on the game over screen" src="assets/game_over_bug.gif" />
+</p>
+
+Way up above, when we first introduced the concept of lives, we added the code to `draw()` to draw the Game Over screen if `lives <= 0`. And we made `draw()` return after drawing the game over screen, effectively skipping the code that draws that asteroids. That's why we don't see any asteroids on the game over screen.
+
+But though we aren't *drawing* the asteroids, they still exist as `Actor` objects and our `update()` code is actually updating them. So even though we can't see the asteroids, our `update()` function is still moving them and reacting to collisions with the alien by changing the alien to the hurt state. Because we *are* drawing the alien on the Game Over screen (note that the `alien.draw()` line happens before the `return` in `draw()`) we see the effects of this: periodically, the alien gets hit by invisible asteroids, changes to the hurt state, and then changes back after 2 seconds.
+
+The fix for this is really simple: we just need to skip most of the `update()` code when we're out of lives. We can do that by adding an if-statement that checks for `lives <= 0` and `return`s from `update()` if so:
+
+<pre>
+def update():
+    global lives
+    global alien_can_hurt
+
+    alien.top += alien_y_speed
+    if alien.top < 0:
+        alien.top = 0;
+    if alien.bottom > HEIGHT:
+        alien.bottom = HEIGHT
+
+    <b>if lives <= 0:
+        return</b>
+
+    for asteroid in asteroids:
+    ...
+</pre>
+
+Now, when `lives <= 0`, we bail out of `update()` before doing any of the asteroid update logic. If you run the game now, you should no longer see the alien changing back and forth between the hurt and normal states on the Game Over screen.
+
+Notice that because of where we placed the lives check and `return` statement, we are still doing updates to the alien position based on `alien_y_speed`, even when it's game over. This lets the alien keep moving in response to the arrow keys (try it: on the Game Over screen, you should still be able to move the alien up and down).
+
+We don't have to implement it this way (we could have put the return from `update()` at the very top, preventing any alien movement), but because the alien is still visible, letting the player move it keeps things feeling interactive. Later, we'll implement a way to restart the game from the Game Over screen. But for now, allowing movement tells the player that the game isn't totally frozen.

@@ -43,6 +43,9 @@ def update():
     if alien.bottom > HEIGHT:
         alien.bottom = HEIGHT
 
+    if lives <= 0:
+        return
+
     for asteroid in asteroids:
         asteroid.left -= 2
         if asteroid.right < 0:
