@@ -7,7 +7,7 @@ ASTEROID_HEIGHT = 100
 ASTEROID_EXPLODE_FRAMES = 6
 
 status_bar = Rect((0, 0), (WIDTH, 20))
-play_area = Rect((0, status_bar.bottom), (WIDTH, HEIGHT))
+play_area = Rect((0, status_bar.bottom), (WIDTH, HEIGHT-status_bar.height))
 
 alien = Actor("alien")
 alien.pos = 100, 56

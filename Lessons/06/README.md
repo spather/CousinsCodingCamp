@@ -92,7 +92,7 @@ WIDTH = 500
 HEIGHT = 500
 
 <b>status_bar = Rect((0, 0), (WIDTH, 20))</b>
-play_area = Rect((0, <b>status_bar.bottom</b>), (WIDTH, HEIGHT))
+play_area = Rect((0, <b>status_bar.bottom</b>), (WIDTH, HEIGHT<b>-status_bar.height</b>))
 </pre>
 
 [Note that this is all we have to change to adjust the play area, because we defined everything else in terms of the play area rect]
