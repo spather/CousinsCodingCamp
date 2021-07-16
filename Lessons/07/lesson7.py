@@ -8,7 +8,6 @@ play_area = Rect((0, status_bar.bottom), (WIDTH, HEIGHT))
 
 alien = Actor("alien")
 alien.pos = 100, 56
-
 alien_y_speed = 0
 lives = 3
 alien_can_hurt = True
@@ -18,7 +17,7 @@ def makeAsteroid(left, top):
     asteroid = Actor("asteroid")
     asteroid.left = left
     asteroid.top = top
-    asteroid.points = 0
+    asteroid.points = 10
     return asteroid
 
 asteroids = [
@@ -34,6 +33,9 @@ def draw():
     # Draw status bar
     screen.draw.filled_rect(status_bar, (0, 20, 150))
 
+    # Draw score
+    screen.draw.text(str(score), topleft=(status_bar.left+10, status_bar.top+5), fontsize=20)
+
     if lives <= 0:
         screen.draw.text("Game Over", center=(250, 150), fontsize=60)
         return
@@ -48,9 +50,6 @@ def draw():
         screen.blit("heart-icon", (heart_left, 0))
         hearts_drawn += 1
         heart_left -= 20
-
-    # Draw score
-    screen.draw.text(str(score), topleft=(10, 5), fontsize=20)
 
 def update():
     global lives

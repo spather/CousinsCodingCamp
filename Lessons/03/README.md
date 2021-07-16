@@ -101,7 +101,7 @@ With the pencil tool selected, you can select a color from the swatch in the rig
 
 Once you're happy with your asteroid drawing, download it by clicking on the Download item in the Pixilart toolbar. In the download dialog, click "Download PNG". This should download a file named something like `pixil-frame-0.png` in your browser's downloads folder.
 
-We need to move this image to a specific place and rename it in order for us to use it as a sprite in Pygame Zero. Back in the Mu editor, hit the Images button in the toolbar:
+<a name="mu-images"></a>We need to move this image to a specific place and rename it in order for us to use it as a sprite in Pygame Zero. Back in the Mu editor, hit the Images button in the toolbar:
 
 <p align="center">
   <img alt="Screenshot of the images button in the Mu toolbar" src="assets/mu-images.png" />
@@ -254,22 +254,3 @@ Run the game now and let the asteroid collide with the alien. You should see the
 1. Can you change the code in `on_key_down()` to make it so that the player can't move the alien off the top or bottom or the window?
 
 2. Can you add code to let the player move the alien left and right, either with the left/right arrow keys or any other keys you choose? Can you prevent the player from moving the alien off the left/right edges of the window?
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
