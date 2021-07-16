@@ -4,7 +4,7 @@ WIDTH = 500
 HEIGHT = 500
 
 ASTEROID_HEIGHT = 50
-ASTEROID_EXPLODE_FRAMES = 6
+ASTEROID_EXPLOSION_MAX_FRAME = 6
 
 status_bar = Rect((0, 0), (WIDTH, 20))
 play_area = Rect((0, status_bar.bottom), (WIDTH, HEIGHT-status_bar.height))
@@ -109,9 +109,10 @@ def update_asteroid_explosions(frame):
         if asteroid.exploding and frame % 14 == 0:
             asteroid.image = "asteroid{}".format(asteroid.frame)
             asteroid.frame += 1
-            if asteroid.frame > ASTEROID_EXPLODE_FRAMES:
+            if asteroid.frame > ASTEROID_EXPLOSION_MAX_FRAME:
                 asteroid.exploding = False
                 asteroid.frame = 0
+                asteroid.image = "asteroid"
 
 def set_alien_normal():
     global alien_can_hurt
