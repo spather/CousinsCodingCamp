@@ -11,4 +11,4 @@ Exploding Asteroids!
     * finding ideal frame rate of 14
   * When game over, still draw exploding asteroids
     * move update_exploding_asteroids call to before early bail out of update()
-      but didn't draw exploding asteroids in draw()
+    * draw exploding asteroids in draw()
