@@ -3,7 +3,7 @@ from random import randint
 WIDTH = 500
 HEIGHT = 500
 
-ASTEROID_HEIGHT = 100
+ASTEROID_HEIGHT = 50
 ASTEROID_EXPLODE_FRAMES = 6
 
 status_bar = Rect((0, 0), (WIDTH, 20))

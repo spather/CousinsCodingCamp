@@ -4,7 +4,7 @@
 
 Exploding Asteroids!
   * New asteroid images
-    * ASTEROID_HEIGHT constant
+    * ASTEROID_HEIGHT constant (in the writing, start it at 100 to match old image height but then change it to 50 when introducing new asteriod)
   * New frame counter
   * Exploding and frame properties on each asteroid
   * update_exploding_asteroids to run the animation
