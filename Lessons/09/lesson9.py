@@ -76,10 +76,10 @@ def update():
     global score
     global frame
 
-    frame += 1
-
     if paused:
         return
+
+    frame += 1
 
     alien.top += alien_y_speed
     if alien.top < play_area.top:

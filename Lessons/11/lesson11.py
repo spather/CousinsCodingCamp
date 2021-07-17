@@ -114,10 +114,10 @@ def update():
     global frame
     global level
 
-    frame += 1
-
     if paused:
         return
+
+    frame += 1
 
     alien.top += alien_y_speed
     if alien.top < play_area.top:
@@ -154,6 +154,7 @@ def update():
             if asteroid.points > 0:
                 play_sound("points")
             asteroid.points = 0
+
     # Update level
     newlevel = int(score / 100)
     if newlevel != level:
