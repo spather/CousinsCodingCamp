@@ -87,8 +87,9 @@ def update():
             asteroid.left = play_area.right
             asteroid.top = randint(play_area.top, play_area.bottom-ASTEROID_HEIGHT)
             asteroid.points = 10
-            asteroid.image = "asteroid"
             asteroid.exploding = False
+            asteroid.frame = 0
+            asteroid.image = "asteroid"
 
         if alien.colliderect(asteroid) and alien_can_hurt:
             asteroid.points = 0
