@@ -53,7 +53,6 @@ def draw():
     for asteroid in asteroids:
         asteroid.draw()
 
-
     # Draw lives hearts
     hearts_drawn = 0
     heart_left = status_bar.right - 20
@@ -129,9 +128,7 @@ def on_key_down(key):
 
 def on_key_up(key):
     global alien_y_speed
-
     if key == keys.DOWN:
         alien_y_speed = 0
     elif key == keys.UP:
         alien_y_speed = 0
-
