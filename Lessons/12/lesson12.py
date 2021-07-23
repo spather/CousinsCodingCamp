@@ -1,3 +1,4 @@
+from enum import Enum
 from random import randint
 
 WIDTH = 500
@@ -5,6 +6,13 @@ HEIGHT = 500
 
 ASTEROID_HEIGHT = 50
 ASTEROID_EXPLOSION_MAX_FRAME = 6
+
+BackgroundType = Enum("BackgroundType", [
+    "COSMIC",
+    "JUMPING_STAR",
+    "NEPTUNE",
+    "GOOD_JOB"
+])
 
 status_bar = Rect((0, 0), (WIDTH, 20))
 play_area = Rect((0, status_bar.bottom), (WIDTH, HEIGHT-status_bar.height))
@@ -35,7 +43,7 @@ def reset_game():
     paused = False
     # Sound flag is off for now
     sounds_enabled = False
-    background_type = 0
+    background_type = BackgroundType.COSMIC
     background_change_frame = 0
 
     asteroids = [
@@ -65,22 +73,22 @@ def reset_asteroid(asteroid, left, top):
 
 def get_background_type():
     if level == 0:
-        return 0
+        return BackgroundType.COSMIC
     elif level == 1:
-        return 1
+        return BackgroundType.JUMPING_STAR
     elif level <= 3:
-        return 2
+        return BackgroundType.NEPTUNE
     else:
-        return 3
+        return BackgroundType.GOOD_JOB
 
 def get_background_filename():
-    if background_type == 0:
+    if background_type == BackgroundType.COSMIC:
         return "cosmic-background"
-    elif background_type == 1:
+    elif background_type == BackgroundType.JUMPING_STAR:
         return "jumping-star-{}".format(int(((frame - background_change_frame) % 48) / 6))
-    elif background_type == 2:
+    elif background_type == BackgroundType.NEPTUNE:
         return "neptune-background"
-    elif background_type == 3:
+    elif background_type == BackgroundType.GOOD_JOB:
         return "good-job-background"
 
 def draw_background():
