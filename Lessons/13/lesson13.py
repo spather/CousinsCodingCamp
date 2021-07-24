@@ -109,22 +109,27 @@ def draw_background():
     global background_type
     global background_change_frame
 
-    new_background_type = get_background_type()
+    if game_state == GameState.READY:
+        filename = "start-screen"
+    elif game_state == GameState.GAME_OVER:
+        filename = "game-over"
+    elif game_state == GameState.PLAYING:
+        new_background_type = get_background_type()
 
-    if new_background_type != background_type:
-        background_type = new_background_type
-        background_change_frame = frame
+        if new_background_type != background_type:
+            background_type = new_background_type
+            background_change_frame = frame
 
-    filename = get_background_filename()
+        filename = get_background_filename()
 
     screen.blit(filename, (0, 0))
 
 def draw():
+    draw_background()
+
     if game_state == GameState.READY:
-        screen.blit("start-screen", (0, 0))
         return
 
-    draw_background()
     alien.draw()
 
     # Draw status bar
@@ -140,7 +145,6 @@ def draw():
         screen.draw.text("Level {}".format(level+1), midtop=(status_bar.width/2, 5), fontsize=20)
 
     if game_state == GameState.GAME_OVER:
-        screen.draw.text("Game Over", center=(250, 150), fontsize=60)
         for asteroid in asteroids:
             if asteroid.exploding:
                 asteroid.draw()
@@ -240,7 +244,7 @@ def set_alien_normal():
 def on_key_down(key):
     global alien_y_speed
 
-    if game_state != GameState.PLAYING:
+    if game_state == GameState.READY:
         return
 
     if key == keys.DOWN:
@@ -259,12 +263,14 @@ def on_key_up(key):
             return
 
     if game_state == GameState.PLAYING:
+        if key == keys.P:
+            paused = not paused
+
+    if game_state == GameState.PLAYING or game_state == GameState.GAME_OVER:
         if key == keys.DOWN:
             alien_y_speed = 0
         elif key == keys.UP:
             alien_y_speed = 0
-        elif key == keys.P:
-            paused = not paused
 
     if game_state == GameState.GAME_OVER:
         if key == keys.R:
