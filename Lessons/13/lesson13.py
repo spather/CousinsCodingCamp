@@ -97,7 +97,7 @@ def get_background_filename():
     if background_type == BackgroundType.COSMIC:
         return "cosmic-background"
     elif background_type == BackgroundType.JUMPING_STAR:
-        return "jumping-star-{}".format(int(((frame - background_change_frame) % 48) / 6))
+        return "jumping-star-{}".format(int(((frame - background_change_frame) % 66) / 6))
     elif background_type == BackgroundType.NEPTUNE:
         return "neptune-background"
     elif background_type == BackgroundType.RADAR:
