@@ -11,6 +11,7 @@ BackgroundType = Enum("BackgroundType", [
     "COSMIC",
     "JUMPING_STAR",
     "NEPTUNE",
+    "RADAR",
     "GOOD_JOB"
 ])
 
@@ -76,8 +77,10 @@ def get_background_type():
         return BackgroundType.COSMIC
     elif level == 1:
         return BackgroundType.JUMPING_STAR
-    elif level <= 3:
+    elif level == 2:
         return BackgroundType.NEPTUNE
+    elif level == 3:
+        return BackgroundType.RADAR
     else:
         return BackgroundType.GOOD_JOB
 
@@ -88,6 +91,8 @@ def get_background_filename():
         return "jumping-star-{}".format(int(((frame - background_change_frame) % 48) / 6))
     elif background_type == BackgroundType.NEPTUNE:
         return "neptune-background"
+    elif background_type == BackgroundType.RADAR:
+        return "radar-{}".format(int(((frame - background_change_frame) % 84) / 6))
     elif background_type == BackgroundType.GOOD_JOB:
         return "good-job-background"
 
